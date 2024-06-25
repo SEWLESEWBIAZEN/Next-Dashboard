@@ -20,10 +20,10 @@ export default function Page() {
             </a>
             , brought to you by Vercel.
           </p>
-          <div className='flex flex-col lg:flex-row justify-between'>
+          <div className='flex flex-col lg:flex-row justify-between gap-3'>
           <Link
             href="/login"
-            className="flex mb-3 md:me-3 items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
+            className="flex  items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
           >
             <span>Log in</span> 
           </Link>
