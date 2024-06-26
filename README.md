@@ -1,5 +1,16 @@
-## Next.js App Router Course - Starter
+Simple full-stack Nextjs application.n It Contains
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+-home page
+-dashboard layout, each slots renders separately
+-invoices page, page layout to show all invoices
+-CRUD invoices
+-customer page
+-CRUD customers
+-Postgres database
+-tailwind css styling
+-By the way it is deployed on vercel
+here is le link to home page check it out, go to dashboard to navigate all features
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+
+https://next-dashboard-pi-five.vercel.app/
+
