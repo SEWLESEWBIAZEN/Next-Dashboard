@@ -13,6 +13,7 @@ const FormSchema = z.object({
     date: z.string(),
 })
 
+//creating invoices
 const CreateInvoice = FormSchema.omit({ id: true, date: true })
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -38,7 +39,7 @@ export async function createInvoice(formData: FormData) {
 //use Zod to update the expected types
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
-//update invoice
+//updating invoices
 export async function updateInvoice(id: string, formData: FormData) {
 
     const { customerId, amount, status } = UpdateInvoice.parse({
@@ -61,8 +62,7 @@ export async function updateInvoice(id: string, formData: FormData) {
 
 }
 
-//delete Invoice
-
+//deleting Invoices
 export async function deleteInvoice(id:string) {
 
     await sql` DELETE FROM invoices WHERE id=${id}`;
