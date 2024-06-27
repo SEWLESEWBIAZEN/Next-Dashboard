@@ -12,10 +12,7 @@ import { formatCurrency } from './utils';
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
-
-    console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // Don't do this in production :)   
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -30,7 +27,7 @@ export async function fetchRevenue() {
 
 export async function fetchLatestInvoices() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 30000));
+   
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -172,12 +169,13 @@ export async function fetchCustomers() {
     const data = await sql<CustomerField>`
       SELECT
         id,
-        name
+        name        
       FROM customers
       ORDER BY name ASC
     `;
 
     const customers = data.rows;
+    console.log(customers)
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
