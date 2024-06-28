@@ -5,6 +5,9 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
 import { signIn } from '../auth';
+import { join } from 'path';
+import { writeFile } from 'fs/promises';
+
 
 
 
@@ -29,9 +32,6 @@ const FormSchemaCustomer = z.object({
     }),
     email:z.string({
       invalid_type_error: 'Please enter a customer email.',
-    }),
-    img_url: z.string({
-      invalid_type_error: 'Please enter a customer image Url.',
     })
     
   });
@@ -53,7 +53,7 @@ export type CState={
     errors?:{
         name?:string[];
         email?:string[];
-        img_url?:string[];
+        
         
     };
     message?:string | null;
@@ -157,12 +157,20 @@ export async function deleteInvoice(id: string) {
 
 const CreateCustomers = FormSchemaCustomer.omit({ id: true })
  export async function createCustomer(prevState:CState,formData:FormData) {
+ 
+
+  const file:File=formData.get('img_url') as unknown as File;
+  const bytes= await file.arrayBuffer();
+  const buffer=Buffer.from(bytes);
+
+  const path= join('/learning/Simple-Dashboard/nextjs-dashboard/public', 'customers',file.name);
+  await writeFile(path, buffer);
+  const img_url="/customers/" + file.name;
   
   
   const validatedFields = CreateCustomers.safeParse({
     name: formData.get('name'),
-    email: formData.get('email'),
-    img_url: formData.get('img_url'),
+    email: formData.get('email')    
   });
 
 
@@ -173,15 +181,14 @@ const CreateCustomers = FormSchemaCustomer.omit({ id: true })
     };
   }
 
-  console.log(validatedFields.data)
  
 // Prepare data for insertion into the database
-const { name, email, img_url } = validatedFields.data;
+const { name, email } = validatedFields.data;
 try {
 
     await sql`
     INSERT INTO customers(name, email, image_url)
-    VALUES (${name},${email}, ${img_url})
+    VALUES (${name},${email},${img_url})
     `;    
 }
 catch (error) {
