@@ -214,7 +214,7 @@ export async function fetchFilteredCustomers(
       total_pending: formatCurrency(Number(customer.total_pending)),
       total_paid: formatCurrency(Number(customer.total_paid)),
     }));
-   console.log(currentPage)
+  
 
     return customers;
   } catch (err) {
