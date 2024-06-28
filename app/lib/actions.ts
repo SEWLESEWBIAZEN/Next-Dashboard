@@ -7,6 +7,7 @@ import { AuthError } from 'next-auth';
 import { signIn } from '../auth';
 
 
+
 const FormSchemaInvoice = z.object({
     id: z.string(),
     customerId: z.string({
@@ -30,14 +31,14 @@ const FormSchemaCustomer = z.object({
       invalid_type_error: 'Please enter a customer email.',
     }),
     img_url: z.string({
-      invalid_type_error: 'Please enter a customer img Url.',
-    }) || null,
-    date: z.string(),
+      invalid_type_error: 'Please enter a customer image Url.',
+    })
+    
   });
 
-//exporting a state
+//exporting a Invoice error state
 
-export type State={
+export type IState={
     errors?:{
         customerId?:string[];
         amount?:string[];
@@ -46,10 +47,21 @@ export type State={
     };
     message?:string | null;
 };
+//exporting a customer error state
+
+export type CState={
+    errors?:{
+        name?:string[];
+        email?:string[];
+        img_url?:string[];
+        
+    };
+    message?:string | null;
+};
 
 //creating invoices
 const CreateInvoice = FormSchemaInvoice.omit({ id: true, date: true })
-export async function createInvoice(prevState:State,formData: FormData) {
+export async function createInvoice(prevState:IState,formData: FormData) {
     const validatedFields = CreateInvoice.safeParse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
@@ -94,7 +106,7 @@ const UpdateInvoice = FormSchemaInvoice.omit({ id: true, date: true });
 //updating invoices
 export async function updateInvoice(
   id: string, 
-  prevState:State,
+  prevState:IState,
   formData: FormData) {
 
     const validatedFields = UpdateInvoice.safeParse({
@@ -143,32 +155,34 @@ export async function deleteInvoice(id: string) {
 
 //Add customers
 
-const CreateCustomers = FormSchemaCustomer.omit({ id: true, date: true })
- export async function createCustomer(prevState:State,formData:FormData) {
+const CreateCustomers = FormSchemaCustomer.omit({ id: true })
+ export async function createCustomer(prevState:CState,formData:FormData) {
+  
+  
   const validatedFields = CreateCustomers.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     img_url: formData.get('img_url'),
   });
 
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Missing Fields. Failed to Create Customer.',
     };
   }
+
+  console.log(validatedFields.data)
+ 
 // Prepare data for insertion into the database
 const { name, email, img_url } = validatedFields.data;
-const date = new Date().toISOString().split('T')[0];
-
-//insert data to the database
 try {
 
     await sql`
-    INSERT INTO customers (name, email, img_url, date)
-    VALUES (${name},${email}, ${img_url},${date})
-    `;
-    
+    INSERT INTO customers(name, email, image_url)
+    VALUES (${name},${email}, ${img_url})
+    `;    
 }
 catch (error) {
     return { message: ' Database Error :Failed to Create Invoice' }
