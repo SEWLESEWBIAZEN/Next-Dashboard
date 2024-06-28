@@ -158,16 +158,20 @@ export async function deleteInvoice(id: string) {
 const CreateCustomers = FormSchemaCustomer.omit({ id: true })
  export async function createCustomer(prevState:CState,formData:FormData) {
  
-
+//separately processing an image file 
   const file:File=formData.get('img_url') as unknown as File;
   const bytes= await file.arrayBuffer();
   const buffer=Buffer.from(bytes);
 
+
+  //adjusting the file path to be uploded on
   const path= join('/learning/Simple-Dashboard/nextjs-dashboard/public', 'customers',file.name);
   await writeFile(path, buffer);
+
+  //adjusting the file path to add the database
   const img_url="/customers/" + file.name;
   
-  
+  //validating other input fields
   const validatedFields = CreateCustomers.safeParse({
     name: formData.get('name'),
     email: formData.get('email')    
