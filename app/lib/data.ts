@@ -81,12 +81,12 @@ export async function fetchCardData() {
   }
 }
 
-const ITEMS_PER_PAGE = 10;
+const INVOICE_ITEMS_PER_PAGE = 10;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offset = (currentPage - 1) * INVOICE_ITEMS_PER_PAGE;
 
   try {
     const invoices = await sql<InvoicesTable>`
@@ -107,7 +107,7 @@ export async function fetchFilteredInvoices(
         invoices.date::text ILIKE ${`%${query}%`} OR
         invoices.status ILIKE ${`%${query}%`}
       ORDER BY invoices.date DESC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      LIMIT ${INVOICE_ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
     return invoices.rows;
@@ -130,7 +130,7 @@ export async function fetchInvoicesPages(query: string) {
       invoices.status ILIKE ${`%${query}%`}
   `;
 
-    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(count.rows[0].count) / INVOICE_ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
@@ -182,8 +182,14 @@ export async function fetchCustomers() {
   }
 }
 
-export async function fetchFilteredCustomers(query: string) {
+
+const  CUSTOMER_ITEMS_PER_PAGE=7;
+export async function fetchFilteredCustomers(
+  query: string,
+  currentPage:number
+) {
   try {
+    const offset = (currentPage - 1) * CUSTOMER_ITEMS_PER_PAGE;
     const data = await sql<FormattedCustomersTable>`
 		SELECT
 		  customers.id,
@@ -197,9 +203,10 @@ export async function fetchFilteredCustomers(query: string) {
 		LEFT JOIN invoices ON customers.id = invoices.customer_id
 		WHERE
 		  customers.name ILIKE ${`%${query}%`} OR
-        customers.email ILIKE ${`%${query}%`}
+      customers.email ILIKE ${`%${query}%`}
 		GROUP BY customers.id, customers.name, customers.email, customers.image_url
 		ORDER BY customers.name ASC
+    LIMIT ${CUSTOMER_ITEMS_PER_PAGE} OFFSET ${offset}
 	  `;
 
     const customers = data.rows.map((customer) => ({
@@ -207,11 +214,29 @@ export async function fetchFilteredCustomers(query: string) {
       total_pending: formatCurrency(Number(customer.total_pending)),
       total_paid: formatCurrency(Number(customer.total_paid)),
     }));
+   console.log(currentPage)
 
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
+  }
+}
+
+export async function fetchCustomersPages(query: string) {
+  try {
+    const count = await sql`SELECT COUNT(*)
+    FROM customers    
+    WHERE
+      customers.name ILIKE ${`%${query}%`} OR
+      customers.email ILIKE ${`%${query}%`}     
+  `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / CUSTOMER_ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of invoices.');
   }
 }
 
