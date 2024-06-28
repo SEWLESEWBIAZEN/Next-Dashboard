@@ -7,7 +7,7 @@ import { AuthError } from 'next-auth';
 import { signIn } from '../auth';
 
 
-const FormSchema = z.object({
+const FormSchemaInvoice = z.object({
     id: z.string(),
     customerId: z.string({
       invalid_type_error: 'Please select a customer.',
@@ -18,6 +18,20 @@ const FormSchema = z.object({
     status: z.enum(['pending', 'paid'], {
       invalid_type_error: 'Please select an invoice status.',
     }),
+    date: z.string(),
+  });
+
+const FormSchemaCustomer = z.object({
+    id: z.string(),
+    name: z.string({
+      invalid_type_error: 'Please enter a customer name.',
+    }),
+    email:z.string({
+      invalid_type_error: 'Please enter a customer email.',
+    }),
+    img_url: z.string({
+      invalid_type_error: 'Please enter a customer img Url.',
+    }) || null,
     date: z.string(),
   });
 
@@ -34,7 +48,7 @@ export type State={
 };
 
 //creating invoices
-const CreateInvoice = FormSchema.omit({ id: true, date: true })
+const CreateInvoice = FormSchemaInvoice.omit({ id: true, date: true })
 export async function createInvoice(prevState:State,formData: FormData) {
     const validatedFields = CreateInvoice.safeParse({
         customerId: formData.get('customerId'),
@@ -75,7 +89,7 @@ export async function createInvoice(prevState:State,formData: FormData) {
 
 
 //use Zod to update the expected types
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+const UpdateInvoice = FormSchemaInvoice.omit({ id: true, date: true });
 
 //updating invoices
 export async function updateInvoice(
@@ -125,6 +139,50 @@ export async function deleteInvoice(id: string) {
     }    
 
 }
+
+
+//Add customers
+
+const CreateCustomers = FormSchemaCustomer.omit({ id: true, date: true })
+ export async function createCustomer(prevState:State,formData:FormData) {
+  const validatedFields = CreateCustomers.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    img_url: formData.get('img_url'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+// Prepare data for insertion into the database
+const { name, email, img_url } = validatedFields.data;
+const date = new Date().toISOString().split('T')[0];
+
+//insert data to the database
+try {
+
+    await sql`
+    INSERT INTO customers (name, email, img_url, date)
+    VALUES (${name},${email}, ${img_url},${date})
+    `;
+    
+}
+catch (error) {
+    return { message: ' Database Error :Failed to Create Invoice' }
+        }
+
+// Revalidate the cache for the invoices page and redirect the user.
+revalidatePath('/dashboard/customers');
+redirect('/dashboard/customers')    
+
+
+  
+ }
+
+
 
 //authenticate
 export async function authenticate(
