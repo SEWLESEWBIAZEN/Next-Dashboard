@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres';
 import {
   CustomerField,
-  CustomersTableType,
+  FormattedCustomersTable,
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
@@ -184,7 +184,7 @@ export async function fetchCustomers() {
 
 export async function fetchFilteredCustomers(query: string) {
   try {
-    const data = await sql<CustomersTableType>`
+    const data = await sql<FormattedCustomersTable>`
 		SELECT
 		  customers.id,
 		  customers.name,
@@ -204,8 +204,8 @@ export async function fetchFilteredCustomers(query: string) {
 
     const customers = data.rows.map((customer) => ({
       ...customer,
-      total_pending: formatCurrency(customer.total_pending),
-      total_paid: formatCurrency(customer.total_paid),
+      total_pending: formatCurrency(Number(customer.total_pending)),
+      total_paid: formatCurrency(Number(customer.total_paid)),
     }));
 
     return customers;
@@ -214,3 +214,5 @@ export async function fetchFilteredCustomers(query: string) {
     throw new Error('Failed to fetch customer table.');
   }
 }
+
+
