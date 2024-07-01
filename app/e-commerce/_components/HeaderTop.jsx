@@ -1,23 +1,23 @@
 import React from 'react'
-// import { BsFacebook, BsTwitter, BsInstagram,BsLinkdin  } from 'react-icons/bs'
+import { FaceSmileIcon ,ShareIcon ,XCircleIcon, InformationCircleIcon, LinkIcon} from '@heroicons/react/24/outline'
 
 const HeaderTop = () => {
   return (
     <div className=' border-b border-gray-200 hidden sm:block'>
-      <div className='container py-4' >
+      <div className='container py-1' >
         <div className='justify-between flex items-center'>
           <div className='hidden md:flex gap-1'> 
             <div className='header_top_icon_wrapper w-8 text-center'>
-              F
+            <ShareIcon className="h-6 w-6 text-blue-500" />
             </div>
             <div className='header_top_icon_wrapper  w-8 text-center' >
-              X
+            <XCircleIcon className="h-6 w-6 text-blue-500" />
             </div>
             <div className='header_top_icon_wrapper  w-8 text-center' >
-             I
+            <InformationCircleIcon className="h-6 w-6 text-blue-500" />
             </div>
             <div className='header_top_icon_wrapper  w-8 text-center' >
-              L
+            <LinkIcon className="h-6 w-6 text-blue-500" />
             </div>
           </div>
           <div className='text-gray-500 text-[12px]'>
