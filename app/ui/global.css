@@ -23,3 +23,45 @@ input[type='number']::-webkit-outer-spin-button {
 
   }
 }
+
+.nav-link{
+  font-weight: 400; 
+ cursor: pointer;
+ position: relative;
+}
+
+.nav-link:hover{
+  color:#ff8f9c;
+  transition: all 0.4s;
+}
+.nav-link::after{
+  position:absolute;
+content:"";
+background-color:#ff8f9c;
+height: 3px;
+width: 100%;
+bottom: -5px;
+left: 0;
+right: 0;
+scale: 0;
+transform-origin: left;
+transition: all 0.4s;
+}
+
+.nav-link:hover::after{
+  scale: 1;
+}
+.badge
+{
+  background-color: #ff8f9c;
+}
+.icon:hover{
+  color: #ff8f9c;
+}
+
+/* styling logo */
+.brand{
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 30px;
+  
+}
