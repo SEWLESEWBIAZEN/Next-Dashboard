@@ -170,26 +170,28 @@ export function CustomersMobileSkeleton() {
   return (
     <div className="mb-2 w-full flex flex-col rounded-md bg-white p-4">
       <div className="flex flex-col items-start border-b border-gray-100 pb-8">
+
+
+
         <div className="flex flex-row items-center">
           <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
           <div className="h-6 w-12 rounded bg-gray-100"></div>
         </div>
-        <div className="h-6 w-26 rounded bg-gray-100"></div>
+        <div className="h-6 w-24 rounded mt-2 bg-gray-100"></div>
       </div>
-      <div className="flex w-full items-left justify-evenly pt-4">
-        <div className="flex flex-col">
+      <div className="flex w-full items-center justify-between border-b py-5">
+        <div className="flex w-1/2 flex-col  ">
           <div className="h-6 w-16 rounded bg-gray-100"></div>
           <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex w-1/2 flex-col">
           <div className="h-6 w-16 rounded bg-gray-100"></div>
           <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
         </div>
-        
-      </div>
-      <div className="flex flex-1">
-        <div className="h-6 w-18 rounded bg-gray-100"></div>
 
+      </div>
+      <div className="flex flex-1 mt-4">
+        <div className="h-6 w-24 rounded bg-gray-100"></div>
       </div>
     </div>
   );
@@ -255,8 +257,8 @@ export function CustomerTableRowSkeleton() {
     <tr className="group">
       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
         <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full bg-gray-100"></div>
-        <div className="h-8 w-24 rounded-full bg-gray-100"></div>
+          <div className="h-8 w-8 rounded-full bg-gray-100"></div>
+          <div className="h-8 w-24 rounded-full bg-gray-100"></div>
           <p>
             {/* {customer.name} */}
           </p>
@@ -275,7 +277,7 @@ export function CustomerTableRowSkeleton() {
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </td>
       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-        {/* {customer.total_paid} */} 
+        {/* {customer.total_paid} */}
         <div className="h-6 w-16 rounded bg-gray-100"></div>
 
       </td>
@@ -299,13 +301,13 @@ export function CustomerTableSkeleton() {
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden">
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
-                <CustomersMobileSkeleton/>
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
+                <CustomersMobileSkeleton />
 
               </div>
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
@@ -330,12 +332,12 @@ export function CustomerTableSkeleton() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  <CustomerTableRowSkeleton/>
-                  <CustomerTableRowSkeleton/>
-                  <CustomerTableRowSkeleton/>
-                  <CustomerTableRowSkeleton/>
-                  <CustomerTableRowSkeleton/>
-                  <CustomerTableRowSkeleton/>
+                  <CustomerTableRowSkeleton />
+                  <CustomerTableRowSkeleton />
+                  <CustomerTableRowSkeleton />
+                  <CustomerTableRowSkeleton />
+                  <CustomerTableRowSkeleton />
+                  <CustomerTableRowSkeleton />
                 </tbody>
               </table>
             </div>
