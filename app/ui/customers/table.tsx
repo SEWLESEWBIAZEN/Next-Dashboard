@@ -4,23 +4,23 @@ import Search from '@/app/ui/search';
 import { CreateCustomer } from './buttons';
 import { fetchFilteredCustomers } from '@/app/lib/data';
 
-export default async function CustomersTable({ 
+export default async function CustomersTable({
   query,
   currentPage
-}: {  
-  query:string;
-  currentPage:number;
+}: {
+  query: string;
+  currentPage: number;
 }) {
 
-  const customers=await fetchFilteredCustomers(query,currentPage);  
+  const customers = await fetchFilteredCustomers(query, currentPage);
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
       <div className='flex w-full items-center flex-col sm:flex-row gap-3'>
-      <Search placeholder="Search customers..." />
-      <CreateCustomer/>
+        <Search placeholder="Search customers..." />
+        <CreateCustomer />
       </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
@@ -51,6 +51,7 @@ export default async function CustomersTable({
                         </p>
                       </div>
                     </div>
+
                     <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
@@ -61,6 +62,7 @@ export default async function CustomersTable({
                         <p className="font-medium">{customer.total_paid}</p>
                       </div>
                     </div>
+
                     <div className="pt-4 text-sm">
                       <p>{customer.total_invoices} invoices</p>
                     </div>
