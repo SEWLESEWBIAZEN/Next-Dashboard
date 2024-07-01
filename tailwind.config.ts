@@ -11,12 +11,18 @@ const config: Config = {
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
+      container:{
+        center:true,
+        padding:"15px"
+      },
       colors: {
         blue: {
           400: '#2589FE',
           500: '#0070F3',
           600: '#2F6FEB',
         },
+        accent:"#FF8F9C",
+        blackish:"#1b1b1b",
       },
     },
     keyframes: {
