@@ -10,10 +10,7 @@ import {
 import { formatCurrency } from './utils';
 
 export async function fetchRevenue() {
-  try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)   
-
+  try {  
     const data = await sql<Revenue>`SELECT * FROM revenue`;
     return data.rows;
   } catch (error) {
